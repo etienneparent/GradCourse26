@@ -11,11 +11,11 @@ For every lecture, there is a `.md` file (exported also as a `.pdf`), that you f
 
 The Mathlib `commit` upon which this project is build is [32d2424](https://github.com/leanprover-community/mathlib4/commits/32d24245c7a12ded17325299fd41d412022cd3fe): the documentation for the Mathlib version used in this project is available [here](https://faenuccio-teaching.github.io/GradCourse26/docs/index.html). 
 ## Agenda
-Classes take place from 14h00 to 17h00 at the "site Monod" of the École Normale Supérieure, in room 301 on the third floor (accessible from the coffee corner). **WARNING: First class on Friday 13th is exceptionally at 13h30-16h30**
+Classes take place **from 13h30 to 16h30** at the "site Monod" of the École Normale Supérieure, in room 301 on the third floor (accessible from the coffee corner). 
 
 | Date      | Lecture         | Ancillary Files | Notes
 |-----------|---------------|---------------|---------------
-| Fri, March 13th | Tactics and Types | | **Warning** Class at 13h30.
+| Fri, March 13th | Tactics and Types | |
 | Wed, March 18th | More  on Types | |
 | Fri, March 20th | Algebra | |
 | Wed, April 1st | Topology | |
