@@ -11,7 +11,7 @@ For every lecture, there is a `.md` file (exported also as a `.pdf`), that you f
 
 The Mathlib `commit` upon which this project is build is [32d2424](https://github.com/leanprover-community/mathlib4/commits/32d24245c7a12ded17325299fd41d412022cd3fe): the documentation for the Mathlib version used in this project is available [here](https://faenuccio-teaching.github.io/GradCourse26/docs/index.html). 
 ## Agenda
-Classes take place **from 13h30 to 16h30** at the "site Monod" of the École Normale Supérieure, in room 301 on the third floor (accessible from the coffee corner). 
+Classes take place **from 13h30 to 16h30** at the "site Monod" of the École Normale Supérieure, in room 316C on the third floor (accessible from the coffee corner). 
 
 | Date      | Lecture         | Ancillary Files | Notes
 |-----------|---------------|---------------|---------------
