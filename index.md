@@ -27,7 +27,7 @@ Classes take place **from 13h30 to 16h30** (with one exception on March 18th) at
 There aren't many books detailing how `Lean` works, but the beautiful
 * [Mathematical Components](https://math-comp.github.io/mcb/), by A. Mahboubi and E. Tassi, 
 
-    tailored around the proof assistant [`Rocq`](https://rocq-prover.org/), is an excellent introduction to what the formalisation of mathematics is. The third chapter contains a nice introduction to the "type theory" that we use.
+tailored around the proof assistant [`Rocq`](https://rocq-prover.org/), is an excellent introduction to what the formalisation of mathematics is. The third chapter contains a nice introduction to the "type theory" that we use.
 
 Another survey of what is needed type-theoretically can be found in the first chapter "Type theory" of the
 * [Homotopy Type Theory (a.k.a. "HoTT book")](https://homotopytypetheory.org/book/)
@@ -39,7 +39,7 @@ A more complete source, extremely well written and a really pleasant read is
 * [Theorem Proving in Lean 4](https://leanprover.github.io/theorem_proving_in_lean4/), by J. Avigad, L. de Moura, S. Kong et S. Ullrich
 * [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/), by J. Avigad et P. Massot
 
-    also contain a lot of material relevant to our course.
+also contain a lot of material relevant to our course.
 
 ## Lean and GitHub prerequisites
 
