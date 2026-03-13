@@ -190,70 +190,109 @@ example : true = false → False := by
 -- Modus Ponens: if `P → Q` then `Q` can be deduced from `P`
 -- **Exercise**
 example : P → (P → Q) → Q := by
-  sorry
-
+  intro hP hPQ
+  apply hPQ
+  exact hP
 
 -- Transitivity of `→`
 -- **Exercise**
 example : (P → Q) → (Q → R) → P → R := by
-  sorry
+  intro hPQ hQR hP
+  apply hQR
+  apply hPQ
+  apply hP
 
 -- **Exercise**
 example (hP : P) : Q → (hP = hP) := by
-  sorry
+  intro hQ
+  rfl
 
 -- **Exercise**
 example (hP : P) : R → P → Q → (hP = hP) := by
-  sorry
+  intros
+  rfl
 
 -- **Exercise**
 example (n : ℕ) (h : n = 5) : n = 2 + 3 := by
-  sorry
+  apply h
 
 -- **Exercise**
 example (n m : ℕ) (hn : n = 5) (hm : 11 = m) : m = n + 6 := by
-  sorry
+  rw [hn]
+  rw [← hm]
 
 -- **Exercise**
-example (α : Type) (a b c : α) (H : (a = b) → P ) (h1 : c = a) (h2 : b = c) : P := by
-  sorry
+example (α : Type) (a b c : α) (H : (a = b) → P) (h1 : c = a) (h2 : b = c) : P := by
+  apply H
+  rw [← h1]
+  rw [h2]
+
 
 -- **Exercise**
 example : P ∧ Q → Q := by
-  sorry
+  intro h
+  exact h.right
 
 -- **Exercise**
 example : (P → Q → R) → P ∧ Q → R := by
-  sorry
+  intro hPQR hPQ
+  apply hPQR
+  · exact hPQ.left
+  · exact hPQ.right
 
 -- `∧` is symmetric
 -- **Exercise**
 example : P ∧ Q → Q ∧ P := by
-  sorry
-
+  intro hPQ
+  constructor
+  · exact hPQ.right
+  · exact hPQ.left
 
 -- `∧` is transitive
 -- **Exercise**
 example : P ∧ Q → Q ∧ R → P ∧ R := by
-  sorry
+  intros hPQ hQR
+  constructor
+  · exact hPQ.left
+  · exact hQR.right
 
 -- **Exercise**
 example : False → P ∨ False := by
-  sorry
+  intro h
+  right
+  exact h
 
 -- **Exercise**
 example : (P ∧ Q → R) → P → Q → R := by
-  sorry
+  intros hPQR hP hQ
+  apply hPQR
+  constructor
+  · exact hP
+  · exact hQ
 
 -- **Exercise**
 example : Q → P ∨ Q := by
-  sorry
+  intro hQ
+  right
+  exact hQ
 
 -- **Exercise**
 example : (P → R) → (Q → S) → P ∨ Q → R ∨ S := by
-  sorry
-
+  intros hPR hQR hPQ
+  cases hPQ
+  · left
+    apply hPR
+    assumption
+  · right
+    apply hQR
+    assumption
 
 -- **Exercise**
 example : (P → Q) → P ∨ R → Q ∨ R := by
-  sorry
+  intros hQP hPR
+  cases hPR
+  · left
+    apply hQP
+    assumption
+  · right
+    assumption
