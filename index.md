@@ -45,7 +45,7 @@ also contain a lot of material relevant to our course.
 
 Before the beginning of the course (on Friday, March 13th 2026), make sure to:
 * have a working internet connection once at ENS, ideally through Eduroam;
-* have a working `git` installation: in case you need help, you can try to have a look at the [excellent tutorial](https://www.imo.universite-paris-saclay.fr/~patrick.massot/misc/git.html) maintained by Patrick Massot;
+* have a working `git` installation: in case you need help, you can try to have a look at the [nice tutorial](https://www.imo.universite-paris-saclay.fr/~patrick.massot/misc/git.html) maintained by Patrick Massot;
 * have a an account on [GitHub](https://github.com) to be able to upload your work;
 * have a working installation of Lean on your laptop, by following the [offical instructions](https://lean-lang.org/install/). Shall you run into problems, don't panic: we'll discuss everything during the first lecture;
 * have downloaded (through `git clone`) the repository of this course, available at [https://github.com/faenuccio-teaching/GradCourse26.git](https://github.com/faenuccio-teaching/GradCourse26.git);
