@@ -7,10 +7,18 @@ section Intro
 open Classical Set
 
 example (n : ℕ) (hn : n ≤ 3) : n ≤ 5 := by
-  sorry
+  apply le_trans
+  · exact hn
+  · norm_num
 
 example (X Y : Type*) [TopologicalSpace X] [TopologicalSpace Y] (y : Y) :
-    Continuous (fun x : X ↦ y) := by sorry
+    Continuous (fun x : X ↦ y) := by
+  rw [continuous_def]
+  intro u hU
+  rw [preimage_const]
+  split_ifs
+  · exact isOpen_univ
+  · exact isOpen_empty
 
 end Intro
 -- `⌘`
@@ -20,32 +28,38 @@ end Intro
 -- Use of the `exact` tactic
 
 example (hP : P) : P := by
-  sorry
+  exact hP
 
 -- Use of the `apply` tactic
 
 example (h : P → Q) (hP : P) : Q := by
-  sorry
+  apply h
+  apply hP
 
 -- Use of the `intro` tactic
 
 example : P → P := by
-  sorry
+  intro hP
+  exact hP
 
 -- Use `\.` to write `·`
 
 example : (P → Q → R) → ((P → Q) → (P → R)) := by
-  sorry
+  intros hPQR hPQ hP
+  apply hPQR
+  · exact hP
+  · apply hPQ
+    exact hP
 
 
 -- Use of the `rfl` tactic
 
 example : P = P := by
-  sorry
+  rfl
 
 
 example : 3 = 2 + 1 := by
-  sorry
+  rfl
 
 -- `⌘`
 
@@ -54,16 +68,18 @@ example : 3 = 2 + 1 := by
 -- `P` is not a proposition: it is a True/False statement for terms in `α`.
 
 example (α : Type) (P : α → Prop) (x y : α) (hx : P x) (h : y = x) : P y := by
-  sorry
-
-
-
-example (α : Type) (P Q : α → Prop) (x : α) (hP : P x) (h : P = Q) : Q x := by
-  sorry
+  rw [← h] at hx
+  exact hx
 
 
 example (α : Type) (P Q : α → Prop) (x : α) (hP : P x) (h : P = Q) : Q x := by
-  sorry
+  rw [h] at hP
+  exact hP
+
+
+example (α : Type) (P Q : α → Prop) (x : α) (hP : P x) (h : P = Q) : Q x := by
+  rw [h] at hP
+  exact hP
 
 -- `⌘`
 
@@ -72,32 +88,52 @@ example (α : Type) (P Q : α → Prop) (x : α) (hP : P x) (h : P = Q) : Q x :=
 
 
 example : P → Q → P ∧ Q := by
-  sorry
-
+  intros hP hQ
+  constructor
+  · exact hP
+  · exact hQ
 
 example : P ∧ Q → P := by
-  sorry
+  intro hPQ
+  exact hPQ.left
 
 /-  # Disjunction / Or
   Use `\or` to write `∨` -/
 
 
 example : P → P ∨ Q := by
-  sorry
+  intro hP
+  left
+  exact hP
 
 /- Symmetry of `∨`, and use of `assumption`  -/
 example : P ∨ Q → Q ∨ P := by
-  sorry
+  intro hPQ
+  cases hPQ
+  · right
+    assumption
+  · left
+    assumption
+
 
 /- The result of `cases` can be given explicit names, by using `rcases ? with ?1 | ?h2 `-/
 example : P ∨ Q → (P → R) → (Q → R) → R := by
-  sorry
+  intros hPQ hPR hQR
+  cases hPQ
+  · apply hPR
+    assumption
+  · apply hQR
+    assumption
 
 -- `⌘`
 
 /- Use of the `by_cases` tactic. -/
 example : R ∨ ¬ R := by
-  sorry
+  by_cases h : R
+  · left
+    exact h
+  · right
+    exact h
 
 -- `⌘`
 
@@ -117,7 +153,7 @@ example : (1 : ℕ) = (1 : ℝ) := by
 
 
 example : (1 : ℕ) = (1 : ℚ) := by
-  sorry
+  rfl
 
 
 example : (1 : ℚ) = (1 : ℚ[X]):= by
@@ -136,13 +172,16 @@ example : (1 : ℚ) = (1 : ℚ[X]):= by
 #check Bool
 
 example : True := by
-  sorry
+  exact trivial
 
 example : true = True := by
-  rfl
+  exact Bool.coe_true
 
 example : true = false → False := by
-  sorry
+  contrapose
+  intros h1 h2
+  rw [Bool.true_eq_false] at h2
+  exact h2
 
 -- `⌘`
 
