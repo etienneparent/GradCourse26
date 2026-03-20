@@ -51,14 +51,19 @@ variable {A' : Type u} (J : A' → Type v)
 -- Euclid's proof, exhibiting the power of impredicativity
 def Euclid_n : ℕ → Prop := fun n ↦ ∃ p, Nat.Prime p ∧ n < p
 def Euclid_all : Prop := (n : ℕ) → (Euclid_n n)
+#check Euclid_all -- Prop
 def Euclid_forall : Prop := ∀ n, ∃ p, Nat.Prime p ∧ n < p
-example : Euclid_all = Euclid_forall := sorry
+example : Euclid_all = Euclid_forall := rfl
 
 theorem Euclid_all_proof : Euclid_all := by
+  unfold Euclid_all
+  intro n
+  unfold Euclid_n
   sorry
 
 theorem exists_p_gt_100 (E : Euclid_forall) : ∃ p, Nat.Prime p ∧ 100 < p := by
-  sorry
+  specialize E 100
+  exact E
 
 
 #check (∃ n : ℕ, n ^ 2 + 37 * n < 2 ^ n)
@@ -67,7 +72,7 @@ theorem exists_p_gt_100 (E : Euclid_forall) : ∃ p, Nat.Prime p ∧ 100 < p := 
 #check (⟨3,  ⟨42, by norm_num⟩⟩ : (a : ℕ) ×' ((fun n ↦ ∃ m : ℕ, n < m) a))
 
 example (h : ∃ x : ℕ, 1 < x) : ℕ := by
-  sorry
+  use 0
 
 example (h : ∃ x : ℕ, 1 < x) : 1 < 2 := by
   sorry
@@ -77,7 +82,12 @@ example : ∃ x : ℝ, Real.sin x = 0 := by
 
 open Function in
 example (f : ℝ → ℝ) (h : ∀ x, ∃ y, x = f y) : Surjective f := by
-  sorry
+  unfold Surjective
+  intro b
+  specialize h b
+  obtain ⟨z, hz⟩ := h
+  use z
+  rw [<- hz]
 
 -- `⌘`
 
@@ -85,18 +95,25 @@ example (f : ℝ → ℝ) (h : ∀ x, ∃ y, x = f y) : Surjective f := by
 
 -- Use of the `exfalso` tactic
 example : False → P := by
-  sorry
+  intro a
+  exfalso
+  exact a
 
 -- type `¬` by typing `\not`.
 -- **ToDo**
 example : P → Q → P → ¬ Q → ¬ P := by
-  sorry
+  intro hP hQ hP2 hnQ hnP
+  apply hnQ
+  exact hQ
 
 
 -- Use of the `by_contra` tactic
 -- **ToDo**
 example : (¬Q → ¬P) → P → Q := by
-  sorry
+  intro hnPnQ hP
+  by_contra
+  apply hnPnQ this
+  exact hP
 
 
 -- `⌘`
@@ -154,7 +171,25 @@ example (n : ℕ) : ENS_Or (n = 0) (∃ m, n = Nat.succ m) := by
 #print Iff -- printed ↔
 
 example : P ∧ (Q ∨ S) ↔ P ∧ Q ∨ P ∧ S := by
-  sorry
+  constructor
+  · rintro ⟨hP, hQ | hS⟩
+    left
+    · constructor
+      exact hP
+      exact hQ
+    · right
+      constructor
+      exact hP
+      exact hS
+  · rintro (⟨hP, hQ⟩ | ⟨hQ, hS⟩)
+    constructor
+    · exact hP
+    · left
+      exact hQ
+    · constructor
+      · exact hQ
+      · right
+        exact hS
 
 
 -- `⌘`
@@ -202,10 +237,11 @@ section Exercises
 
 -- **Exercise**
 -- What is the type of `¬`?
+-- Prop -> Prop
 
 -- **Exercise**
 -- Why is `¬ P : Prop` when `P : Prop`?
-
+-- Prop
 
 -- **Exercise**
 /- Consider the function `F` sending `n : ℕ` to the statement
@@ -225,51 +261,104 @@ variable (α : Type*) (p q : α → Prop) -- Use `\alpha` to write `α`
 
 -- **Exercise**
 example : True → True := by
-  sorry
+  intro t
+  exact t
 
 
 -- **Exercise**
 example : (P → False) → P → Q := by
-  sorry
+  intro hPfalse hP
+  exfalso
+  apply hPfalse
+  exact hP
 
 
 -- **Exercise**
 example : P → ¬ P → False := by
-  sorry
+  intro hP hnP
+  apply hnP
+  exact hP
 
 
 -- **Exercise**
 example : (P → ¬ Q) → (Q → ¬ P) := by
-  sorry
+  intro hPnQ
+  by_contra
+  apply this
+  intro hQ
+  intro hP
+  apply hPnQ
+  exact hP
+  exact hQ
 
 
 -- **Exercise**
 example (h : ¬ (2 = 2)) : P → Q := by
-  sorry
+  exfalso
+  apply h
+  rfl
 
 -- **Exercise**
 example : (∀ x : α, p x ∧ q x) → ∀ x : α, p x := by
-  sorry
+  intro hforall hp
+  specialize hforall hp
+  exact hforall.left
+
 
 -- **Exercise**
 example : (∀ x, p x ∨ R) ↔ (∀ x, p x) ∨ R := by
+  constructor
+  intro h
+  left
   sorry
 
 -- **Exercise**
 example (h : ∃ x, p x ∧ q x) : ∃ x, p x := by
-  sorry
+  obtain ⟨x, hx⟩ := h
+  use x
+  exact hx.left
+
 
 -- **Exercise**
 example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x := by
-  sorry
+  obtain ⟨x, hx⟩ := h
+  use x
+  constructor
+  · exact hx.right
+  · exact hx.left
 
 -- **Exercise**
 example (a : α) : (∃ x, p x → R) ↔ ((∀ x, p x) → R) := by
-  sorry
+  constructor
+  · intro he hf
+    obtain ⟨x, hx⟩ := he
+    specialize hf x
+    apply hx
+    exact hf
+  · contrapose
+    intro h
+    rw [not_exists] at h
+    rw [_root_.not_imp]
+    constructor
+    · intro x
+      specialize h x
+      rw [Classical.not_imp] at h
+      exact h.left
+    · specialize h a
+      rw [Classical.not_imp] at h
+      exact h.right
+
 
 -- **Exercise**
 example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := by
-  sorry
+  constructor
+  · intro h
+    obtain ⟨x, hx⟩ := h
+    · left
+      use x
+      exact hx.left
+
+
 
 -- **Exercise**
 example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := by
