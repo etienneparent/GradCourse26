@@ -199,7 +199,7 @@ example : P ∧ Q → Q ∧ R → P ∧ R := by
   sorry
 
 -- **Exercise**
-example : False → P ∧ False := by
+example : False → P ∨ False := by
   sorry
 
 -- **Exercise**
